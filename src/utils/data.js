@@ -71,7 +71,7 @@ const processData = (data, locationMap) => {
 export const loadData = async (filename = 'timeline.csv') => {
     try {
         // 1. Fetch Geocoding Data
-        const geoResponse = await fetch('/modern.json');
+        const geoResponse = await fetch(`${import.meta.env.BASE_URL}modern.json`);
         if (!geoResponse.ok) throw new Error(`Failed to fetch modern.json: ${geoResponse.statusText}`);
         const geoData = await geoResponse.json();
 
@@ -84,7 +84,7 @@ export const loadData = async (filename = 'timeline.csv') => {
         }
 
         // 2. Fetch and Parse CSV
-        const csvResponse = await fetch(`/${filename}`);
+        const csvResponse = await fetch(`${import.meta.env.BASE_URL}${filename}`);
         if (!csvResponse.ok) throw new Error(`Failed to fetch ${filename}: ${csvResponse.statusText}`);
         const csvText = await csvResponse.text();
 
