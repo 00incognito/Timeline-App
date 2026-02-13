@@ -1,0 +1,6 @@
+Location,Date,Event,Person,Category,Reference,Certainty,Latitude,Longitude
+Damascus,34 CE,Paul Blinded on Road,Paul,Missionary,https://biblehub.com/acts/9-3.htm,1,,
+Jerusalem,36 CE,Paul meets Apostles,Paul,Missionary,,2,,
+Antioch,45 CE,Barnabas brings Paul,Barnabas,Missionary,,1,,
+Custom Place,50 CE,Example Event,John Doe,Civilian,http://example.com,3,12.34,56.78
+Placeholder City,60 CE,Future Event,Jane Doe,Unknown,,4,,

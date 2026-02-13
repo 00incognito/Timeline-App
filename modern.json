@@ -1,0 +1,207 @@
+[
+    {
+        "name": "Jerusalem",
+        "lat": 31.7683,
+        "lon": 35.2137
+    },
+    {
+        "name": "Nazareth",
+        "lat": 32.6996,
+        "lon": 35.3035
+    },
+    {
+        "name": "Capernaum",
+        "lat": 32.8810,
+        "lon": 35.5752
+    },
+    {
+        "name": "Bethlehem",
+        "lat": 31.7057,
+        "lon": 35.2007
+    },
+    {
+        "name": "Egypt",
+        "lat": 26.8206,
+        "lon": 30.8025
+    },
+    {
+        "name": "Rome",
+        "lat": 41.9028,
+        "lon": 12.4964
+    },
+    {
+        "name": "Sea of Galilee",
+        "lat": 32.8193,
+        "lon": 35.5898
+    },
+    {
+        "name": "Jordan River",
+        "lat": 31.9566,
+        "lon": 35.5488
+    },
+    {
+        "name": "Tarsus",
+        "lat": 36.9157,
+        "lon": 34.8966
+    },
+    {
+        "name": "Damascus",
+        "lat": 33.5138,
+        "lon": 36.2765
+    },
+    {
+        "name": "Antioch",
+        "lat": 36.2021,
+        "lon": 36.1609
+    },
+    {
+        "name": "Antioch (Syria)",
+        "lat": 36.2021,
+        "lon": 36.1609
+    },
+    {
+        "name": "Golgotha",
+        "lat": 31.7781,
+        "lon": 35.2296
+    },
+    {
+        "name": "Mount of Olives",
+        "lat": 31.7783,
+        "lon": 35.2435
+    },
+    {
+        "name": "Samaria",
+        "lat": 32.2767,
+        "lon": 35.1917
+    },
+    {
+        "name": "Road to Gaza",
+        "lat": 31.5000,
+        "lon": 34.6500
+    },
+    {
+        "name": "Azotus",
+        "lat": 31.8014,
+        "lon": 34.6435
+    },
+    {
+        "name": "Joppa",
+        "lat": 32.0536,
+        "lon": 34.7553
+    },
+    {
+        "name": "Lydda",
+        "lat": 31.9519,
+        "lon": 34.8881
+    },
+    {
+        "name": "Caesarea",
+        "lat": 32.5006,
+        "lon": 34.8929
+    },
+    {
+        "name": "Salamis",
+        "lat": 35.1558,
+        "lon": 33.9167
+    },
+    {
+        "name": "Paphos",
+        "lat": 34.7754,
+        "lon": 32.4245
+    },
+    {
+        "name": "Lystra",
+        "lat": 37.6675,
+        "lon": 32.4578
+    },
+    {
+        "name": "Palestine",
+        "lat": 31.9522,
+        "lon": 35.2332
+    },
+    {
+        "name": "Iconium",
+        "lat": 37.8667,
+        "lon": 32.4833
+    },
+    {
+        "name": "Derbe",
+        "lat": 37.3486,
+        "lon": 33.3614
+    },
+    {
+        "name": "Perga",
+        "lat": 36.9583,
+        "lon": 30.8500
+    },
+    {
+        "name": "Attalia",
+        "lat": 36.8841,
+        "lon": 30.7056
+    },
+    {
+        "name": "Pisidian Antioch",
+        "lat": 38.3056,
+        "lon": 31.1889
+    },
+    {
+        "name": "Philippi",
+        "lat": 41.0125,
+        "lon": 24.2831
+    },
+    {
+        "name": "Thessalonica",
+        "lat": 40.6401,
+        "lon": 22.9444
+    },
+    {
+        "name": "Berea",
+        "lat": 40.5217,
+        "lon": 22.1997
+    },
+    {
+        "name": "Athens",
+        "lat": 37.9838,
+        "lon": 23.7275
+    },
+    {
+        "name": "Corinth",
+        "lat": 37.9153,
+        "lon": 22.8814
+    },
+    {
+        "name": "Ephesus",
+        "lat": 37.9497,
+        "lon": 27.3639
+    },
+    {
+        "name": "Miletus",
+        "lat": 37.5302,
+        "lon": 27.2759
+    },
+    {
+        "name": "Tyre",
+        "lat": 33.2705,
+        "lon": 35.1969
+    },
+    {
+        "name": "Gethsemane",
+        "lat": 31.7794,
+        "lon": 35.2401
+    },
+    {
+        "name": "Babylon",
+        "lat": 32.4785,
+        "lon": 44.4013
+    },
+    {
+        "name": "Israel",
+        "lat": 31.0461,
+        "lon": 34.8516
+    },
+    {
+        "name": "Sea of Tiberias",
+        "lat": 32.8193,
+        "lon": 35.5898
+    }
+]
