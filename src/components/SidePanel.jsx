@@ -1,6 +1,126 @@
 import React, { useState } from 'react';
 import { X, Users, MapPin, Activity, Tag, Search, CheckSquare, Square, ChevronDown, ChevronRight, Filter, Copy } from 'lucide-react';
 
+const FilterSection = ({ id, label, Icon, items, activeItems, toggleItem, selectAll, hasSearch, openSection, toggleSection }) => {
+    const isOpen = openSection === id;
+    const count = activeItems.length;
+    const total = items.length;
+
+    const [searchTerm, setSearchTerm] = useState('');
+
+    let displayItems = items;
+    if (hasSearch && searchTerm) {
+        displayItems = items.filter(i => i.toLowerCase().includes(searchTerm.toLowerCase()));
+    }
+
+    const renderControlButtons = (items, activeItems, onSelectAll) => {
+        const isAllSelected = items.length > 0 && activeItems.length === items.length;
+        return (
+            <button
+                onClick={(e) => {
+                    e.stopPropagation();
+                    onSelectAll(!isAllSelected);
+                }}
+                style={{
+                    background: 'none',
+                    border: 'none',
+                    color: isAllSelected ? '#6b7280' : '#8b5cf6',
+                    cursor: 'pointer',
+                    fontSize: '0.75rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    fontWeight: 500
+                }}
+            >
+                {isAllSelected ? (
+                    <>
+                        <Square size={12} /> Uncheck All
+                    </>
+                ) : (
+                    <>
+                        <CheckSquare size={12} /> Check All
+                    </>
+                )}
+            </button>
+        );
+    };
+
+    return (
+        <div style={{ borderBottom: '1px solid #2e3241' }}>
+            <div
+                onClick={() => toggleSection(id)}
+                style={{
+                    padding: '12px 16px',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    background: isOpen ? '#232634' : 'transparent',
+                    transition: 'background 0.2s'
+                }}
+            >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.9rem', fontWeight: 500, color: 'white' }}>
+                    <Icon size={16} color="#8b5cf6" />
+                    {label}
+                    <span style={{ fontSize: '0.75rem', color: '#6b7280', marginLeft: '4px' }}>
+                        ({count}/{total})
+                    </span>
+                </div>
+                {isOpen ? <ChevronDown size={16} color="#9ca3af" /> : <ChevronRight size={16} color="#9ca3af" />}
+            </div>
+
+            {isOpen && (
+                <div style={{ padding: '12px', background: '#1e212b' }}>
+
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                        <span style={{ fontSize: '0.75rem', color: '#9ca3af' }}>Select Visible</span>
+                        {renderControlButtons(items, activeItems, selectAll)}
+                    </div>
+
+                    {hasSearch && (
+                        <div style={{ marginBottom: '10px', position: 'relative' }}>
+                            <Search size={14} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: '#6b7280' }} />
+                            <input
+                                type="text"
+                                placeholder="Search..."
+                                value={searchTerm}
+                                onClick={(e) => e.stopPropagation()}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                style={{
+                                    width: '100%',
+                                    padding: '6px 10px 6px 30px',
+                                    borderRadius: '4px',
+                                    background: '#2e3241',
+                                    border: '1px solid #374151',
+                                    color: 'white',
+                                    fontSize: '0.85rem'
+                                }}
+                            />
+                        </div>
+                    )}
+
+                    <div style={{ maxHeight: '200px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                        {displayItems.map(item => (
+                            <label key={item} style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', padding: '4px 8px', borderRadius: '4px', background: activeItems.includes(item) ? 'rgba(139, 92, 246, 0.1)' : 'transparent' }}>
+                                <input
+                                    type="checkbox"
+                                    checked={activeItems.includes(item)}
+                                    onChange={() => toggleItem(item)}
+                                    style={{ marginRight: '8px', accentColor: '#8b5cf6' }}
+                                />
+                                <span style={{ color: activeItems.includes(item) ? 'white' : '#9ca3af', fontSize: '0.85rem' }}>
+                                    {item}
+                                </span>
+                            </label>
+                        ))}
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+};
+
 const SidePanel = ({
     categories,
     activeCategories,
@@ -15,11 +135,11 @@ const SidePanel = ({
     togglePerson,
     selectAllPeople,
     eventsCount,
-    allEvents
+    allEvents,
+    selectedEventId,
+    onEventSelect
 }) => {
-    // State for collapsible sections
-    const [openSection, setOpenSection] = useState(null); // 'people', 'locations', 'categories' or null
-    const [personSearch, setPersonSearch] = useState('');
+    const [openSection, setOpenSection] = useState(null);
     const [copied, setCopied] = useState(false);
 
     const handleCopyResults = () => {
@@ -59,124 +179,6 @@ const SidePanel = ({
         }
     };
 
-    const renderControlButtons = (items, activeItems, onSelectAll) => {
-        const isAllSelected = items.length > 0 && activeItems.length === items.length;
-        return (
-            <button
-                onClick={(e) => {
-                    e.stopPropagation();
-                    onSelectAll(!isAllSelected);
-                }}
-                style={{
-                    background: 'none',
-                    border: 'none',
-                    color: isAllSelected ? '#6b7280' : '#8b5cf6',
-                    cursor: 'pointer',
-                    fontSize: '0.75rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '4px',
-                    fontWeight: 500
-                }}
-            >
-                {isAllSelected ? (
-                    <>
-                        <Square size={12} /> Uncheck All
-                    </>
-                ) : (
-                    <>
-                        <CheckSquare size={12} /> Check All
-                    </>
-                )}
-            </button>
-        );
-    };
-
-    const FilterSection = ({ id, label, Icon, items, activeItems, toggleItem, selectAll, hasSearch }) => {
-        const isOpen = openSection === id;
-        const count = activeItems.length;
-        const total = items.length;
-
-        let displayItems = items;
-        if (hasSearch && personSearch) {
-            displayItems = items.filter(i => i.toLowerCase().includes(personSearch.toLowerCase()));
-        }
-
-        return (
-            <div style={{ borderBottom: '1px solid #2e3241' }}>
-                <div
-                    onClick={() => toggleSection(id)}
-                    style={{
-                        padding: '12px 16px',
-                        cursor: 'pointer',
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        background: isOpen ? '#232634' : 'transparent',
-                        transition: 'background 0.2s'
-                    }}
-                >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.9rem', fontWeight: 500, color: 'white' }}>
-                        <Icon size={16} color="#8b5cf6" />
-                        {label}
-                        <span style={{ fontSize: '0.75rem', color: '#6b7280', marginLeft: '4px' }}>
-                            ({count}/{total})
-                        </span>
-                    </div>
-                    {isOpen ? <ChevronDown size={16} color="#9ca3af" /> : <ChevronRight size={16} color="#9ca3af" />}
-                </div>
-
-                {isOpen && (
-                    <div style={{ padding: '12px', background: '#1e212b' }}>
-
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
-                            <span style={{ fontSize: '0.75rem', color: '#9ca3af' }}>Select Visible</span>
-                            {renderControlButtons(items, activeItems, selectAll)}
-                        </div>
-
-                        {hasSearch && (
-                            <div style={{ marginBottom: '10px', position: 'relative' }}>
-                                <Search size={14} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: '#6b7280' }} />
-                                <input
-                                    type="text"
-                                    placeholder="Search..."
-                                    value={personSearch}
-                                    onClick={(e) => e.stopPropagation()}
-                                    onChange={(e) => setPersonSearch(e.target.value)}
-                                    style={{
-                                        width: '100%',
-                                        padding: '6px 10px 6px 30px',
-                                        borderRadius: '4px',
-                                        background: '#2e3241',
-                                        border: '1px solid #374151',
-                                        color: 'white',
-                                        fontSize: '0.85rem'
-                                    }}
-                                />
-                            </div>
-                        )}
-
-                        <div style={{ maxHeight: '200px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                            {displayItems.map(item => (
-                                <label key={item} style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', padding: '4px 8px', borderRadius: '4px', background: activeItems.includes(item) ? 'rgba(139, 92, 246, 0.1)' : 'transparent' }}>
-                                    <input
-                                        type="checkbox"
-                                        checked={activeItems.includes(item)}
-                                        onChange={() => toggleItem(item)}
-                                        style={{ marginRight: '8px', accentColor: '#8b5cf6' }}
-                                    />
-                                    <span style={{ color: activeItems.includes(item) ? 'white' : '#9ca3af', fontSize: '0.85rem' }}>
-                                        {item}
-                                    </span>
-                                </label>
-                            ))}
-                        </div>
-                    </div>
-                )}
-            </div>
-        );
-    };
-
     return (
         <div style={{
             width: '100%',
@@ -208,6 +210,8 @@ const SidePanel = ({
                     toggleItem={togglePerson}
                     selectAll={selectAllPeople}
                     hasSearch={true}
+                    openSection={openSection}
+                    toggleSection={toggleSection}
                 />
                 <FilterSection
                     id="locations"
@@ -217,6 +221,8 @@ const SidePanel = ({
                     activeItems={activeLocations}
                     toggleItem={toggleLocation}
                     selectAll={selectAllLocations}
+                    openSection={openSection}
+                    toggleSection={toggleSection}
                 />
                 <FilterSection
                     id="categories"
@@ -226,6 +232,8 @@ const SidePanel = ({
                     activeItems={activeCategories}
                     toggleItem={toggleCategory}
                     selectAll={selectAllCategories}
+                    openSection={openSection}
+                    toggleSection={toggleSection}
                 />
             </div>
 
@@ -265,8 +273,22 @@ const SidePanel = ({
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                         {allEvents.map((evt, idx) => {
                             const certainty = getCertaintyLabel(evt.Certainty);
+                            const isSelected = selectedEventId === evt.id;
                             return (
-                                <div key={evt.id || idx} style={{ background: '#232634', padding: '10px', borderRadius: '8px', borderLeft: `3px solid ${certainty.color}` }}>
+                                <div
+                                    key={evt.id || idx}
+                                    onClick={() => onEventSelect && onEventSelect(evt)} // Handle Selection
+                                    style={{
+                                        background: isSelected ? 'rgba(139, 92, 246, 0.2)' : '#232634',
+                                        padding: '10px',
+                                        borderRadius: '8px',
+                                        borderLeft: `3px solid ${certainty.color}`,
+                                        border: isSelected ? '1px solid #8b5cf6' : '1px solid transparent',
+                                        cursor: 'pointer',
+                                        transition: 'all 0.2s',
+                                        scrollMarginTop: '10px' // Helps when scrolling
+                                    }}
+                                >
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
                                         <strong style={{ color: '#fff', fontSize: '0.95rem' }}>{evt.Person}</strong>
                                         <span style={{ fontSize: '0.8rem', color: '#8b5cf6', fontWeight: 'bold' }}>{evt.DisplayYear}</span>
@@ -276,6 +298,13 @@ const SidePanel = ({
                                         {evt.Event}
                                     </div>
 
+                                    {evt.Location && (
+                                        <div style={{ fontSize: '0.75rem', color: '#6b7280', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                            <MapPin size={12} />
+                                            {evt.Location}
+                                        </div>
+                                    )}
+
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.75rem' }}>
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                                             <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: certainty.color }}></span>
@@ -283,7 +312,7 @@ const SidePanel = ({
                                         </div>
                                         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                                             {evt.References && evt.References.map((ref, i) => (
-                                                <a key={i} href={ref} target="_blank" rel="noopener noreferrer" style={{ color: '#4a9eff', textDecoration: 'none' }}>
+                                                <a key={i} href={ref} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} style={{ color: '#4a9eff', textDecoration: 'none' }}>
                                                     Ref {i + 1} ↗
                                                 </a>
                                             ))}

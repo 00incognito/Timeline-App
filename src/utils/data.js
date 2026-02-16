@@ -23,7 +23,15 @@ export const processData = (rawData, locationMap) => {
         const rawLocation = getRowValue(row, 'Location').trim();
         const dateStr = getRowValue(row, 'Date', 'Year'); // Support both for backward comapt
         const eventText = getRowValue(row, 'Event', 'Activity/Event');
-        const reference = getRowValue(row, 'Reference');
+        // Scripture and Reference might be missing in simplified CSV
+        const scripture = getRowValue(row, 'Scripture') || '';
+
+        // Append Scripture to Event if present
+        let finalEvent = eventText;
+        if (scripture) {
+            finalEvent = `${eventText} (${scripture})`;
+        }
+        const reference = getRowValue(row, 'Reference') || '';
 
         // Parse Reference URLs
         let references = [];
@@ -42,9 +50,9 @@ export const processData = (rawData, locationMap) => {
 
         const category = getRowValue(row, 'Category') || 'Uncategorized'; // New Category Field
 
-        // Parse Certainty (1-4), default to 4 if missing/invalid
+        // Parse Certainty (1-4), default to 1 (Fact) as per user request
         let certainty = parseInt(getRowValue(row, 'Certainty'), 10);
-        if (isNaN(certainty) || certainty < 1 || certainty > 4) certainty = 2; // Default to 'Assumed' if unknown
+        if (isNaN(certainty) || certainty < 1 || certainty > 4) certainty = 1; // Default to 'Fact'
 
         // Parse Year
         const yearMatch = (dateStr || '').toString().match(/(-?\d+)/);
@@ -70,7 +78,7 @@ export const processData = (rawData, locationMap) => {
             id: `evt-${index}`,
             Person: person,
             Location: rawLocation,
-            Event: eventText,
+            Event: finalEvent,
             Year: yearVal,
             DisplayYear: dateStr,
             Reference: reference,

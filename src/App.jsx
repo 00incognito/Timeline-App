@@ -33,7 +33,7 @@ function App() {
 
     const playInterval = useRef(null);
 
-    const [selectedFile, setSelectedFile] = useState('timeline.csv');
+    const [selectedFile, setSelectedFile] = useState('default.csv');
 
     // Resize Logic
     const [panelWidth, setPanelWidth] = useState(350);
@@ -226,6 +226,8 @@ function App() {
                         eventsCount={displayedEvents.length}
                         allEvents={displayedEvents}
                         currentYear={currentYear}
+                        selectedEventId={selectedEvent?.id}
+                        onEventSelect={setSelectedEvent}
                     />
                 </div>
 
@@ -280,7 +282,8 @@ function App() {
                 <TimelineMap
                     events={displayedEvents}
                     currentYear={currentYear}
-                    activePeople={activePeople}
+                    onEventSelect={setSelectedEvent}
+                    selectedEvent={selectedEvent}
                 />
 
                 {/* Loading Overlay if no data yet */}
